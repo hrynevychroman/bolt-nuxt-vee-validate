@@ -1,12 +1,14 @@
 <script setup>
 import { toTypedSchema } from '@vee-validate/zod'
 import { ErrorMessage, Field, FieldArray, Form } from 'vee-validate'
-import * as zod from 'zod'
+import { z } from 'zod'
 
-const schema = toTypedSchema(zod.object({
-  items: zod.array(zod.object({
-    name: zod.string().min(1, 'Item name is required'),
-    quantity: zod.number().min(1, 'Quantity must be at least 1'),
+// FieldArray docs -> https://vee-validate.logaretm.com/v4/api/field-array/
+// useFieldArray docs -> https://vee-validate.logaretm.com/v4/api/use-field-array/
+const schema = toTypedSchema(z.object({
+  items: z.array(z.object({
+    name: z.string().min(1, 'Item name is required'),
+    quantity: z.number().min(1, 'Quantity must be at least 1'),
   })).min(1, 'Add at least one item to the shopping list'),
 }))
 
