@@ -1,18 +1,20 @@
 <script setup>
 import { toTypedSchema } from '@vee-validate/zod'
 import { useField, useForm } from 'vee-validate'
-import * as zod from 'zod'
+import { z } from 'zod'
 
-const schema = toTypedSchema(zod.object({
-  name: zod.string().min(2, 'Name must be at least 2 characters'),
-  email: zod.string().email('Invalid email address'),
-  agreeToTerms: zod.boolean().refine(val => val === true, 'You must agree to the terms and conditions'),
+const schema = toTypedSchema(z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to the terms and conditions'),
 }))
 
+// useForm docs -> https://vee-validate.logaretm.com/v4/api/use-form/
 const { handleSubmit, isSubmitting, resetForm } = useForm({
   validationSchema: schema,
 })
 
+// useField docs -> https://vee-validate.logaretm.com/v4/api/use-field/
 const { value: name, errorMessage: nameError } = useField('name')
 const { value: email, errorMessage: emailError } = useField('email')
 const { value: agreeToTerms, errorMessage: agreeToTermsError } = useField('agreeToTerms')
