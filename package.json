@@ -1,6 +1,7 @@
 {
   "name": "nuxt-form-validation",
   "type": "module",
+  "version": "0.0.2",
   "private": true,
   "packageManager": "pnpm@9.12.0+sha512.4abf725084d7bcbafbd728bfc7bee61f2f791f977fd87542b3579dcb23504d170d46337945e4c66485cd12d588a0c0e570ed9c477e7ccdd8507cf05f3f92eaca",
   "scripts": {
@@ -10,7 +11,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "bump": "bumpp"
   },
   "dependencies": {
     "@nuxt/eslint": "^0.5.7",
@@ -23,6 +25,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^3.7.3",
     "@nuxtjs/tailwindcss": "^6.11.4",
+    "bumpp": "^9.7.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.6.3"
   }
