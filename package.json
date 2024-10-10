@@ -1,0 +1,23 @@
+{
+  "name": "nuxt-form-validation",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "HOST=0.0.0.0 nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@vee-validate/zod": "^4.12.6",
+    "lodash-es": "^4.17.21",
+    "nuxt": "^3.13.2",
+    "vee-validate": "^4.12.6",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.11.4",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

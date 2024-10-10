@@ -1,0 +1,54 @@
+<template>
+  <div>
+    <h2 class="text-2xl font-semibold mb-4">Profile Update Form</h2>
+    <Form @submit="onSubmit" :validation-schema="schema" :initial-values="initialValues" v-slot="{ errors }" :validateOnMount="true">
+      <div class="mb-4">
+        <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+        <Field name="fullName" type="text" class="form-input" />
+        <ErrorMessage name="fullName" class="error" />
+      </div>
+      <div class="mb-4">
+        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+        <Field name="age" type="number" class="form-input" />
+        <ErrorMessage name="age" class="error" />
+      </div>
+      <div class="mb-4">
+        <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+        <Field name="website" type="url" class="form-input" />
+        <ErrorMessage name="website" class="error" />
+      </div>
+      <div class="mb-4">
+        <label for="bio" class="block text-sm font-medium text-gray-700">Bio</label>
+        <Field name="bio" as="textarea" class="form-input" />
+        <ErrorMessage name="bio" class="error" />
+      </div>
+      <button type="submit" class="btn">Update Profile</button>
+    </Form>
+  </div>
+</template>
+
+<script setup>
+import { Form, Field, ErrorMessage } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as zod from 'zod';
+
+const schema = toTypedSchema(zod.object({
+  fullName: zod.string().min(2, 'Full name must be at least 2 characters'),
+  age: zod.number().min(18, 'You must be at least 18 years old').max(120, 'Invalid age'),
+  website: zod.string().url('Invalid URL').optional().or(zod.literal('')),
+  bio: zod.string().max(500, 'Bio must be 500 characters or less').optional(),
+}));
+
+const initialValues = {
+  fullName: 'John Doe',
+  age: 30,
+  website: 'https://example.com',
+  bio: 'I am a software developer.',
+};
+
+const onSubmit = (values) => {
+  console.log(values);
+  // Here you would typically send the profile update request to your backend
+  alert('Profile updated successfully!');
+};
+</script>
