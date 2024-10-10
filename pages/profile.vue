@@ -1,15 +1,16 @@
 <script setup>
 import { toTypedSchema } from '@vee-validate/zod'
 import { ErrorMessage, Field, Form } from 'vee-validate'
-import * as zod from 'zod'
+import { z } from 'zod'
 
-const schema = toTypedSchema(zod.object({
-  fullName: zod.string().min(2, 'Full name must be at least 2 characters'),
-  age: zod.number().min(18, 'You must be at least 18 years old').max(120, 'Invalid age'),
-  website: zod.string().url('Invalid URL').optional().or(zod.literal('')),
-  bio: zod.string().max(500, 'Bio must be 500 characters or less').optional(),
+const schema = toTypedSchema(z.object({
+  fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+  age: z.number().min(18, 'You must be at least 18 years old').max(120, 'Invalid age'),
+  website: z.string().url('Invalid URL').optional().or(z.literal('')),
+  bio: z.string().max(500, 'Bio must be 500 characters or less').optional(),
 }))
 
+// Initial Values docs -> https://vee-validate.logaretm.com/v4/guide/components/handling-forms#initial-values
 const initialValues = {
   fullName: 'John Doe',
   age: 30,
