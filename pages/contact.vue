@@ -1,16 +1,17 @@
 <script setup>
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm, Field as VeeField } from 'vee-validate'
-import * as zod from 'zod'
+import { z } from 'zod'
 
 const schema = toTypedSchema(
-  zod.object({
-    name: zod.string().min(2, 'Name must be at least 2 characters'),
-    email: zod.string().email('Invalid email address'),
-    message: zod.string().min(10, 'Message must be at least 10 characters'),
+  z.object({
+    name: z.string().min(2, 'Name must be at least 2 characters'),
+    email: z.string().email('Invalid email address'),
+    message: z.string().min(10, 'Message must be at least 10 characters'),
   }),
 )
 
+// useForm docs -> https://vee-validate.logaretm.com/v4/api/use-form/
 const { handleSubmit, resetForm, errors, isSubmitting } = useForm({
   validationSchema: schema,
   initialValues: {
