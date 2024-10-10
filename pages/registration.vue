@@ -1,22 +1,39 @@
 <script setup>
 import { toTypedSchema } from '@vee-validate/zod'
 import { ErrorMessage, Field, Form } from 'vee-validate'
-import * as zod from 'zod'
+import { z } from 'zod'
 
-const schema = toTypedSchema(zod.object({
-  username: zod.string().min(3, 'Username must be at least 3 characters'),
-  email: zod.string().email('Invalid email address'),
-  password: zod.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: zod.string(),
+// Form docs -> https://vee-validate.logaretm.com/v4/api/form/
+const formRef = ref()
+
+const schema = toTypedSchema(z.object({
+  username: z.string().min(3, 'Username must be at least 3 characters'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: 'Passwords don\'t match',
   path: ['confirmPassword'],
 }))
 
-function onSubmit(values) {
-  console.log(values)
-  // Here you would typically send the registration request to your backend
-  alert('Registration successful!')
+async function onSubmit(values) {
+  try {
+    // Check if email is already in use
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    const isEmailInUse = true
+    if (isEmailInUse) {
+      throw new Error('Email is already in use')
+    }
+
+    console.log(values)
+
+    // Here you would typically send the registration request to your backend
+    alert('Registration successful!')
+  }
+  catch (error) {
+    console.error(error)
+    formRef.value.setFieldError('email', error.message)
+  }
 }
 </script>
 
@@ -25,7 +42,7 @@ function onSubmit(values) {
     <h2 class="text-2xl font-semibold mb-4">
       Registration Form
     </h2>
-    <Form v-slot="{ errors }" :validation-schema="schema" :validate-on-mount="true" @submit="onSubmit">
+    <Form ref="formRef" v-slot="{ isSubmitting }" :validation-schema="schema" :validate-on-mount="true" @submit="onSubmit">
       <div class="mb-4">
         <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
         <Field name="username" type="text" class="form-input" />
@@ -46,7 +63,7 @@ function onSubmit(values) {
         <Field name="confirmPassword" type="password" class="form-input" />
         <ErrorMessage name="confirmPassword" class="error" />
       </div>
-      <button type="submit" class="btn">
+      <button type="submit" class="btn" :disabled="isSubmitting">
         Register
       </button>
     </Form>
